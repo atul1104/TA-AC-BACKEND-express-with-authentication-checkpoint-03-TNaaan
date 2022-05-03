@@ -5,7 +5,7 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var mongoose = require('mongoose');
 var session = require('express-session');
-var Mongostore = require('connect-mongo');
+var MongoStore = require('connect-mongo');
 var flash = require('connect-flash');
 var passport = require('passport');
 
@@ -14,14 +14,12 @@ require('dotenv').config();
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
-//connect to database
-mongoose.connect('mongodb://localhost/expense-track', (err) => {
-  console.log(err ? err : 'Connected to database');
+mongoose.connect('mongodb://localhost/expense', (err) => {
+  console.log(err ? err : 'Database is connected successfully');
 });
 
-var app = express();
-
 require('./modules/passport');
+var app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -33,13 +31,12 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-//Add session
 app.use(
   session({
     secret: process.env.SECRET,
     resave: false,
     saveUninitialized: false,
-    store: new Mongostore({ mongoUrl: 'mongodb://localhost/expense' }),
+    store: new MongoStore({ mongoUrl: 'mongodb://localhost/expense' }),
   })
 );
 

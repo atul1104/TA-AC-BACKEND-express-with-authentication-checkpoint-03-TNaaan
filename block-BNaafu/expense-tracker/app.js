@@ -39,7 +39,7 @@ app.use(
     secret: process.env.SECRET,
     resave: false,
     saveUninitialized: false,
-    store: new MongoStore({ mongoUrl: 'mongodb://localhost/expense' }),
+    store: new Mongostore({ mongoUrl: 'mongodb://localhost/expense' }),
   })
 );
 
